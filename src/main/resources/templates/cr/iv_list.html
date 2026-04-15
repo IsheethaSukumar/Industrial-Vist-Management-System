@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My IV Requests</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:1000px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #eee;padding:8px;text-align:left}
+    th{background:#fafafa}
+    .muted{color:#666}
+    a{display:inline-block;margin-top:10px}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>My IV Requests</h2>
+  <p class="muted">CR ID: <span th:text="${crId}">1</span></p>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Company</th>
+      <th>Tentative Date/Time</th>
+      <th>Invited Staff</th>
+      <th>Status</th>
+      <th>Student Limit</th>
+      <th>Transport</th>
+      <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="iv : ${ivs}">
+      <td th:text="${iv.id}">1</td>
+      <td th:text="${iv.company != null ? iv.company.name : '—'}">Company</td>
+      <td th:text="${iv.tentativeDateTime}">2025-11-10T10:00:00</td>
+      <td th:text="${iv.invitedStaff}">staff1,hod</td>
+      <td th:text="${iv.status}">APPROVAL_IN_PROGRESS</td>
+      <td th:text="${iv.studentLimit}">40</td>
+      <td th:text="${iv.transportDetails}">2 buses</td>
+      <td><a th:href="@{'/web/cr/iv/' + ${iv.id}}">View</a></td>
+    </tr>
+    </tbody>
+  </table>
+  <a th:href="@{'/web/cr/login'}">Back to CR Login</a>
+  <a href="/">Home</a>
+</div>
+</body>
+</html>

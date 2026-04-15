@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOD Login</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:500px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    label{display:block;margin-top:12px}
+    input{width:100%;padding:8px;margin-top:4px}
+    button{margin-top:16px;background:#0f62fe;color:#fff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer}
+    a{display:inline-block;margin-top:10px}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>HOD Login</h2>
+  <form action="/web/hod/login" method="post">
+    <label>Name
+      <input type="text" name="name" required>
+    </label>
+    <button type="submit">Login</button>
+  </form>
+  <a href="/">Back</a>
+</div>
+</body>
+</html>

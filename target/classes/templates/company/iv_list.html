@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company IV Requests</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:1000px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #eee;padding:8px;text-align:left}
+    th{background:#fafafa}
+    a{color:#0f62fe;text-decoration:none}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>IV Requests</h2>
+  <p>Company ID: <span th:text="${companyId}">1</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>IV ID</th>
+        <th>CR</th>
+        <th>Tentative Date</th>
+        <th>Status</th>
+        <th>Student Limit</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="iv : ${ivs}">
+        <td th:text="${iv.id}">1</td>
+        <td th:text="${iv.cr != null ? iv.cr.name : '-'}">CR Name</td>
+        <td th:text="${iv.tentativeDateTime}">2025-11-10T10:00</td>
+        <td th:text="${iv.status}">APPROVAL_IN_PROGRESS</td>
+        <td th:text="${iv.studentLimit}">40</td>
+        <td><a th:href="@{'/web/company/iv/' + ${iv.id}}">Details</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <a href="/">Home</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IV Management System</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f7f7f7; color: #222; }
+    header { background: #0f62fe; color: white; padding: 20px; }
+    header h1 { margin: 0; font-size: 22px; }
+    .container { max-width: 900px; margin: 24px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    h2 { margin-top: 0; font-size: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 12px; }
+    .card { border: 1px solid #eee; border-radius: 8px; padding: 16px; }
+    .card h3 { margin: 0 0 8px 0; font-size: 16px; }
+    a.button { display: inline-block; margin-top: 8px; background: #0f62fe; color: #fff; padding: 8px 12px; border-radius: 6px; text-decoration: none; }
+    .muted { color: #666; font-size: 13px; }
+    ul { line-height: 1.8; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1 th:text="${project}">IV Management System</h1>
+</header>
+<div class="container">
+  <div class="grid">
+    <div class="card">
+      <h3>Class Representative (CR)</h3>
+      <p class="muted">Create IVs, invite staff, track statuses</p>
+      <a class="button" href="/web/cr/login">CR Login</a>
+    </div>
+    <div class="card">
+      <h3>HOD/Staff</h3>
+      <p class="muted">Review and approve IV requests</p>
+      <a class="button" href="/web/hod/login">HOD Login</a>
+    </div>
+    <div class="card">
+      <h3>Company</h3>
+      <p class="muted">Confirm dates, set batch limit, attendance</p>
+      <a class="button" href="/web/company/login">Company Login</a>
+    </div>
+  </div>
+  
+  <div style="margin-top: 24px">
+    <a class="button" href="/h2" target="_blank">Open H2 Console</a>
+  </div>
+</div>
+</body>
+</html>

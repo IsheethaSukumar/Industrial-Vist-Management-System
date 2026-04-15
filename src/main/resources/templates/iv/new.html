@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create IV</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:600px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    label{display:block;margin-top:12px}
+    select{width:100%;padding:8px;margin-top:4px}
+    button{margin-top:16px;background:#0f62fe;color:#fff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer}
+    a{display:inline-block;margin-top:10px}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Create IV Request</h2>
+  <form action="/web/iv/create" method="post">
+    <label>Class Representative
+      <select name="crId" required>
+        <option value="" disabled selected>Select CR</option>
+        <option th:each="c : ${crs}" th:value="${c.id}" th:text="${c.name} + ' (' + ${c.rollNo} + ')'">CR</option>
+      </select>
+    </label>
+    <label>Company
+      <select name="companyId" required>
+        <option value="" disabled selected>Select Company</option>
+        <option th:each="co : ${companies}" th:value="${co.id}" th:text="${co.name} + ' - ' + ${co.location}">Company</option>
+      </select>
+    </label>
+    <button type="submit">Create IV</button>
+  </form>
+  <a href="/">Back</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IV Details</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:900px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{border:1px solid #eee;padding:8px;text-align:left}
+    th{background:#fafafa}
+    .muted{color:#666}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>IV Details</h2>
+  <p class="muted">IV ID: <span th:text="${iv.id}">1</span></p>
+  <p>Company: <span th:text="${iv.company != null ? iv.company.name : '—'}">Company</span></p>
+  <p>Tentative Date/Time: <span th:text="${iv.tentativeDateTime}">2025-11-10T10:00</span></p>
+  <p>Status: <span th:text="${iv.status}">APPROVAL_IN_PROGRESS</span></p>
+  <p>Invited Staff: <span th:text="${iv.invitedStaff}">staff1,hod</span></p>
+  <p>Student Limit: <span th:text="${iv.studentLimit}">40</span></p>
+  <p>Transport: <span th:text="${iv.transportDetails}">2 buses</span></p>
+
+  <h3>Students</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Roll No</th>
+        <th>Dept</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="s,idx : ${students}">
+        <td th:text="${idx.index + 1}">1</td>
+        <td th:text="${s.name}">Student A</td>
+        <td th:text="${s.rollNo}">21CS001</td>
+        <td th:text="${s.dept}">CSE</td>
+      </tr>
+    </tbody>
+  </table>
+  <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/submit'}" method="post" style="margin-top:16px">
+    <button type="submit">Submit for HOD Approval</button>
+  </form>
+  <a href="/">Home</a>
+</div>
+</body>
+</html>

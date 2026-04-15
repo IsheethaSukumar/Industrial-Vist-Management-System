@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pending Approvals - HOD</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:1000px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #eee;padding:8px;text-align:left}
+    th{background:#fafafa}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2 th:if="${filter} == 'PENDING'">Pending Approvals (HOD)</h2>
+  <h2 th:if="${filter} == 'APPROVED'">Approved IVs (HOD)</h2>
+  <h2 th:if="${filter} == 'REJECTED'">Rejected IVs (HOD)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Approval ID</th>
+        <th>IV ID</th>
+        <th>Company</th>
+        <th>Requested Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="a : ${approvals}">
+        <td th:text="${a.id}">1</td>
+        <td th:text="${a.iv != null ? a.iv.id : '-'}">10</td>
+        <td th:text="${a.iv != null && a.iv.company != null ? a.iv.company.name : '-'}">Company</td>
+        <td th:text="${a.iv != null ? a.iv.tentativeDateTime : '-'}">2025-11-10T10:00</td>
+        <td th:text="${a.status}">PENDING</td>
+        <td><a th:href="@{'/web/hod/approval/' + ${a.id}}">Details</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <a href="/web/hod/approvals">Pending</a>
+  <a href="/web/hod/approvals/approved">Approved</a>
+  <a href="/web/hod/approvals/rejected">Rejected</a>
+  <a href="/">Home</a>
+</div>
+</body>
+</html>

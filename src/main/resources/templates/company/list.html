@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Companies</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:900px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #eee;padding:8px;text-align:left}
+    th{background:#fafafa}
+    a{display:inline-block;margin-top:10px}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Company List</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Location</th>
+      <th>HR Name</th>
+      <th>HR Email</th>
+      <th>Contact No</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${companies}">
+      <td th:text="${c.id}">1</td>
+      <td th:text="${c.name}">Name</td>
+      <td th:text="${c.location}">Location</td>
+      <td th:text="${c.hrName}">HR</td>
+      <td th:text="${c.hrEmail}">email</td>
+      <td th:text="${c.contactNo}">0000</td>
+    </tr>
+    </tbody>
+  </table>
+  <a href="/web/company/new">Add or Update Company</a>
+  <a href="/">Back</a>
+</div>
+</body>
+</html>

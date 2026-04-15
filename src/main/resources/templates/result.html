@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Result</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
+    .card{max-width:600px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .ok{color:#0f62fe;font-weight:bold}
+    a{display:inline-block;margin-top:10px}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Result</h2>
+  <p class="ok" th:text="${message}">Action completed.</p>
+  <a href="/">Back to Home</a>
+</div>
+</body>
+</html>
