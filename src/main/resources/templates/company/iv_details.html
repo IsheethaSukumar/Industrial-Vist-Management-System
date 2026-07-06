@@ -28,6 +28,26 @@
     <p><strong>Invited Staff:</strong> <span th:text="${iv.invitedStaff}">staff1, hod</span></p>
     <p th:if="${iv.hrConfirmationPath}"><strong>HR Confirmation / Notes:</strong> <span th:text="${iv.hrConfirmationPath}">/path</span></p>
 
+    <div th:if="${iv.companyRequestMessage}" style="margin: 20px 0; padding: 15px; background: #f8fafc; border-left: 4px solid #0f62fe; border-radius: 4px;">
+      <p style="margin:0 0 8px 0; font-weight:600; color: #1e293b;">Request Message from CR:</p>
+      <div style="font-style: italic; white-space: pre-wrap; color: #475569;" th:text="${iv.companyRequestMessage}">Message content...</div>
+    </div>
+
+    <div th:if="${iv.status == 'COMPANY_REQUESTED'}" style="margin: 24px 0; background: #fafafa; border: 1px dashed #cbd5e1; padding: 20px; border-radius: 8px;">
+      <h3 style="margin-top:0; color:#0f62fe;">Respond to Request</h3>
+      <form th:action="@{'/web/company/iv/' + ${iv.id} + '/confirm'}" method="post">
+        <div style="margin-bottom: 15px;">
+          <label for="alternateDateInput" style="display:block; font-weight:600; margin-bottom:5px;">Suggest a different Date/Time (Only if selecting Suggest Date)</label>
+          <input type="datetime-local" id="alternateDateInput" name="alternateDate" style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px; box-sizing:border-box;">
+        </div>
+        <div style="display:flex; gap:15px;">
+          <button type="submit" name="action" value="ACCEPT" style="flex:1; padding:12px; border:none; border-radius:6px; background:#198754; color:white; font-weight:600; cursor:pointer;">Accept Request</button>
+          <button type="submit" name="action" value="SUGGEST" style="flex:1; padding:12px; border:none; border-radius:6px; background:#ffc107; color:#212529; font-weight:600; cursor:pointer;">Suggest Alternate Date</button>
+          <button type="submit" name="action" value="REJECT" style="flex:1; padding:12px; border:none; border-radius:6px; background:#dc3545; color:white; font-weight:600; cursor:pointer;">Reject Request</button>
+        </div>
+      </form>
+    </div>
+
     <h3>Students</h3>
     <table>
       <thead>

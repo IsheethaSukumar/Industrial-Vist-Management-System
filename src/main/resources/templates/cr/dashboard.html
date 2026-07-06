@@ -3,24 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CR Dashboard</title>
+  <title>CR Dashboard - IVMS</title>
   <style>
-    body{font-family:Arial, sans-serif;background:#f7f7f7;margin:0}
-    .card{max-width:900px;margin:24px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-    ul{line-height:1.9}
-    a{color:#0f62fe;text-decoration:none}
+    :root {
+      --primary: #0f62fe;
+      --primary-hover: #0043ce;
+      --background: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-main: #161616;
+      --text-muted: #525252;
+      --border: #e0e0e0;
+      --focus-outline: #002d9c;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      background-color: var(--primary);
+      color: white;
+      width: 100%;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    main {
+      width: 90%;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      padding: 32px;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: var(--text-main);
+      border-bottom: 2px solid var(--background);
+      padding-bottom: 12px;
+    }
+    .welcome-text {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .dashboard-item {
+      display: flex;
+      flex-direction: column;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .dashboard-item:hover, .dashboard-item:focus {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      border-color: var(--primary);
+      outline: 2px solid var(--focus-outline);
+      outline-offset: 2px;
+    }
+    .dashboard-item h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      color: var(--primary);
+    }
+    .dashboard-item p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 16px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+    }
+    .back-btn:hover, .back-btn:focus {
+      color: var(--primary-hover);
+      text-decoration: underline;
+      outline: none;
+    }
   </style>
 </head>
 <body>
-<div class="card">
-  <h2>CR Dashboard</h2>
-  <ul>
-    <li><a href="/web/company/new">Create/Update Company</a></li>
-    <li><a href="/web/company">View Companies</a></li>
-    <li><a href="/web/iv/full-new">Create IV</a></li>
-    <li><a th:href="@{'/web/cr/' + ${cr.id} + '/ivs'}">My IV Requests & Status</a></li>
-  </ul>
-  <a href="/">Back to Home</a>
-</div>
+<header>
+  <h1>Industrial Visit Management System</h1>
+</header>
+<main>
+  <div class="card">
+    <h2>CR Dashboard</h2>
+    <p class="welcome-text">Logged in as CR: <strong th:text="${cr.name}">CR Name</strong> (Roll No: <span th:text="${cr.rollNo}">22CS001</span>)</p>
+    
+    <div class="grid" role="navigation" aria-label="Dashboard actions">
+      <a href="/web/company/new" class="dashboard-item">
+        <h3>Create/Update Company</h3>
+        <p>Register or update details of industrial visit partner companies.</p>
+      </a>
+      <a href="/web/company" class="dashboard-item">
+        <h3>View Companies</h3>
+        <p>Browse existing companies and their visit configurations.</p>
+      </a>
+      <a th:href="@{'/web/cr/' + ${cr.id} + '/proposal/new'}" class="dashboard-item">
+        <h3>Create IV Proposal</h3>
+        <p>Initiate a new industrial visit request for HOD initial approval.</p>
+      </a>
+      <a th:href="@{'/web/cr/' + ${cr.id} + '/company-request'}" class="dashboard-item">
+        <h3>Send Request to Company HR</h3>
+        <p>Request company HR confirmation by providing the Approval/IV ID.</p>
+      </a>
+      <a th:href="@{'/web/cr/' + ${cr.id} + '/ivs'}" class="dashboard-item">
+        <h3>My IV Requests</h3>
+        <p>Track status of submitted proposals, select companies, and plan logistics.</p>
+      </a>
+    </div>
+    
+    <a href="/" class="back-btn">← Back to Home</a>
+  </div>
+</main>
 </body>
 </html>

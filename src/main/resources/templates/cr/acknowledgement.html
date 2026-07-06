@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Acknowledgement - IVMS</title>
+  <style>
+    :root {
+      --primary: #0f62fe;
+      --primary-hover: #0043ce;
+      --background: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-main: #161616;
+      --text-muted: #525252;
+      --border: #e0e0e0;
+      --success: #198754;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      max-width: 600px;
+      margin: 30px auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
+    }
+    h2 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 24px;
+      border-bottom: 2px solid var(--background);
+      padding-bottom: 10px;
+    }
+    .badge {
+      display: inline-block;
+      background: #e6f4ea;
+      color: var(--success);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+    .detail-group {
+      background: var(--background);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 25px;
+      border: 1px solid var(--border);
+    }
+    .detail-item {
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .detail-item:last-child {
+      margin-bottom: 0;
+    }
+    .label {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .value {
+      font-weight: 500;
+    }
+    .generated-box {
+      border: 1px solid #b7e1cd;
+      background-color: #f3faf6;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 25px;
+      color: #137333;
+    }
+    .generated-box h4 {
+      margin: 0 0 8px 0;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Upload Company Acknowledgement</h2>
+  <div class="badge">Status: Company Accepted</div>
+
+  <div class="detail-group">
+    <div class="detail-item">
+      <span class="label">IV ID:</span>
+      <span class="value" th:text="${iv.id}">1</span>
+    </div>
+    <div class="detail-item">
+      <span class="label">Company:</span>
+      <span class="value" th:text="${iv.company.name}">Google</span>
+    </div>
+    <div class="detail-item">
+      <span class="label">Proposed Date:</span>
+      <span class="value" th:text="${iv.tentativeDateTime}">2026-07-10T10:00</span>
+    </div>
+    <div class="detail-item">
+      <span class="label">Student Strength:</span>
+      <span class="value" th:text="${iv.studentLimit}">50</span>
+    </div>
+  </div>
+
+  <div class="generated-box">
+    <h4>Generated System Acknowledgement</h4>
+    <p style="margin: 0; font-size: 14px; font-style: italic;">
+      "We hereby acknowledge that the company <strong th:text="${iv.company.name}">Google</strong> has officially accepted our request for an Industrial Visit scheduled on <strong th:text="${iv.tentativeDateTime}">2026-07-10</strong> for a batch of <strong th:text="${iv.studentLimit}">50</strong> students."
+    </p>
+    <a th:href="@{'/web/cr/iv/' + ${iv.id} + '/acknowledgement/download'}" style="display: inline-block; margin-top: 10px; color: #137333; font-weight: bold; text-decoration: underline;">Download System Acknowledgement PDF</a>
+  </div>
+
+  <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/acknowledgement/upload'}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="hrConfirmationFile">Acknowledgement Document / HR Approval Copy</label>
+      <input type="file" id="hrConfirmationFile" name="hrConfirmationFile" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+      <small style="color: var(--text-muted); display: block; margin-top: 6px;">Please upload the signed permission/acknowledgement copy from the company (PDF or Image).</small>
+    </div>
+
+    <div class="form-group">
+      <label for="studentsPdfFile">Student List PDF Document</label>
+      <input type="file" id="studentsPdfFile" name="studentsPdfFile" accept="application/pdf" required style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;">
+      <small style="color: var(--text-muted); display: block; margin-top: 6px;">Please upload the list of students attending this industrial visit as a PDF.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="facultyName">Propose Faculty in Charge</label>
+      <input type="text" id="facultyName" name="facultyName" required placeholder="e.g. Dr. John Smith">
+      <small style="color: var(--text-muted); display: block; margin-top: 6px;">Specify the name of the faculty member proposed to accompany this visit.</small>
+    </div>
+
+    <button type="submit" class="btn-submit">Submit & Request Faculty Approval</button>
+  </form>
+
+  <a class="back-link" th:href="@{'/web/cr/' + ${iv.cr.id} + '/ivs'}">Back to My IV Requests</a>
+</div>
+</body>
+</html>

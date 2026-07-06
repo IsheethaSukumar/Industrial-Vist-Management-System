@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Initial Proposal Review</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 600px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .detail-item { margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+    .label { font-weight: 600; color: #475569; font-size: 13px; text-transform: uppercase; }
+    .value { font-size: 16px; margin-top: 3px; }
+    .form-group { margin-top: 25px; }
+    textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    .btn-group { display: flex; gap: 15px; margin-top: 15px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 15px; }
+    .btn-approve { background: #198754; color: white; }
+    .btn-approve:hover { background: #157347; }
+    .btn-reject { background: #dc3545; color: white; }
+    .btn-reject:hover { background: #bb2d3b; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Initial Proposal Review</h2>
+  
+  <div class="detail-item">
+    <div class="label">IV ID</div>
+    <div class="value" th:text="${iv.id}">1</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Department</div>
+    <div class="value" th:text="${iv.department}">Computer Science</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Year & Section</div>
+    <div class="value" th:text="${iv.yearAndSection}">III Year A</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Students Count</div>
+    <div class="value" th:text="${iv.numberOfStudents}">50</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Preferred Domain</div>
+    <div class="value" th:text="${iv.preferredDomain}">Software</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Purpose</div>
+    <div class="value" th:text="${iv.purpose}">Purpose notes...</div>
+  </div>
+
+  <form th:action="@{'/web/hod/proposal/' + ${iv.id} + '/initial-approve'}" method="post" class="form-group">
+    <label for="remarks" style="font-weight: 600; margin-bottom: 5px; display: block;">Approval/Rejection Remarks</label>
+    <textarea id="remarks" name="remarks" required placeholder="Enter feedback or remarks here..."></textarea>
+    
+    <div class="btn-group">
+      <button class="btn btn-approve" type="submit" name="action" value="APPROVE">Approve & Allow Company Selection</button>
+      <button class="btn btn-reject" type="submit" name="action" value="REJECT">Reject Proposal</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

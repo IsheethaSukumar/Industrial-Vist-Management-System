@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Request to Company HR - IVMS</title>
+  <style>
+    :root {
+      --primary: #0f62fe;
+      --primary-hover: #0043ce;
+      --background: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-main: #161616;
+      --text-muted: #525252;
+      --border: #e0e0e0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      max-width: 600px;
+      margin: 30px auto;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
+    }
+    h2 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 24px;
+      border-bottom: 2px solid var(--background);
+      padding-bottom: 10px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover {
+      background: var(--primary-hover);
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Send Request to Company HR</h2>
+  <p style="color: var(--text-muted); margin-bottom: 25px;">Enter the IV ID (Approval ID) and select a company to send the official invitation request to the company HR.</p>
+  
+  <form th:action="@{'/web/cr/company-request'}" method="post">
+    <input type="hidden" name="crId" th:value="${crId}">
+    
+    <div class="form-group">
+      <label for="ivId">IV ID (Approval ID)</label>
+      <input type="number" id="ivId" name="ivId" required placeholder="e.g. 1">
+    </div>
+
+    <div class="form-group">
+      <label for="companyId">Select Company</label>
+      <select id="companyId" name="companyId" required>
+        <option value="" disabled selected>Choose a company...</option>
+        <option th:each="c : ${companies}" th:value="${c.id}" th:text="${c.name} + ' (' + ${c.location} + ')'"></option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tentativeDate">Proposed Visit Date & Time</label>
+      <input type="datetime-local" id="tentativeDate" name="tentativeDate" required style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+    </div>
+
+    <div class="form-group">
+      <label for="alternateDate">Alternate Proposed Date & Time (Optional)</label>
+      <input type="datetime-local" id="alternateDate" name="alternateDate" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+    </div>
+
+    <div class="form-group">
+      <label for="finalStrength">Final Student Strength</label>
+      <input type="number" id="finalStrength" name="finalStrength" required placeholder="e.g. 50">
+    </div>
+
+    <div class="form-group">
+      <label for="companyRequestMessage">Request Message / Cover Letter for HR</label>
+      <textarea id="companyRequestMessage" name="companyRequestMessage" placeholder="Dear HR Team, we would like to request an industrial visit to your facility..."></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit">Send Request to Company HR</button>
+  </form>
+  
+  <a class="back-link" th:href="@{'/web/cr/' + ${crId} + '/dashboard'}">Back to Dashboard</a>
+</div>
+</body>
+</html>

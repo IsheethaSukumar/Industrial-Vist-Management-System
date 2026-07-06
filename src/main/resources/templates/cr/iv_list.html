@@ -40,12 +40,40 @@
       <td th:text="${iv.status}">APPROVAL_IN_PROGRESS</td>
       <td th:text="${iv.studentLimit}">40</td>
       <td th:text="${iv.transportDetails}">2 buses</td>
-      <td><a th:href="@{'/web/cr/iv/' + ${iv.id}}">View</a></td>
+      <td>
+        <span th:if="${iv.status == 'SUBMITTED'}">Waiting for Initial HOD Approval</span>
+        <a th:if="${iv.status == 'COMPANY_SELECTION'}" th:href="@{'/web/cr/iv/' + ${iv.id} + '/companies'}" style="background:#0f62fe; color:white; padding:4px 8px; border-radius:4px; text-decoration:none;">Create Company Request</a>
+        <span th:if="${iv.status == 'COMPANY_REQUESTED'}">
+          Request Sent to Company.
+          <br><a th:href="@{'/web/company/iv/' + ${iv.id} + '/confirm'}" style="color:#d97706; text-decoration:underline;">(Mock Company Confirm)</a>
+        </span>
+        <span th:if="${iv.status == 'COMPANY_ACCEPTED'}">
+          Company Accepted!
+          <br><a th:href="@{'/web/cr/iv/' + ${iv.id} + '/acknowledgement'}" style="background:#198754; color:white; padding:4px 8px; border-radius:4px; text-decoration:none; display:inline-block; margin-top:5px;">Upload Acknowledgement</a>
+        </span>
+        <span th:if="${iv.status == 'DATE_STRENGTH_SUBMITTED'}">Faculty Accepted. Waiting for Final HOD Approval.</span>
+        <span th:if="${iv.status == 'COMPANY_CONFIRMED'}">Approved by HOD. Ready for Logistics.</span>
+        <span th:if="${iv.status == 'FACULTY_ASSIGNED'}">
+          Waiting for Faculty Response.
+          <br><a th:href="@{'/web/faculty/iv/' + ${iv.id} + '/respond'}" style="color:#d97706; text-decoration:underline;">(Mock Faculty Respond)</a>
+        </span>
+        <a th:if="${iv.status == 'COMPANY_CONFIRMED' or iv.status == 'TRANSPORT_PLANNED' or iv.status == 'FOOD_PLANNED' or iv.status == 'BUDGET_PREPARED'}" th:href="@{'/web/cr/iv/' + ${iv.id} + '/logistics'}" style="background:#198754; color:white; padding:4px 8px; border-radius:4px; text-decoration:none;">Plan Logistics & Budget</a>
+        <span th:if="${iv.status == 'CONDUCTED'}">
+          Visit Conducted.
+          <br><a th:href="@{'/web/cr/iv/' + ${iv.id} + '/proof'}" style="background:#0d6efd; color:white; padding:4px 8px; border-radius:4px; text-decoration:none;">Upload Proof</a>
+        </span>
+        <span th:if="${iv.status == 'PROOF_UPLOADED'}">Waiting for HOD verification of proof</span>
+        <span th:if="${iv.status == 'COMPLETED'}">Completed ✅</span>
+        <br>
+        <a th:href="@{'/web/cr/iv/' + ${iv.id}}">View Details</a>
+      </td>
     </tr>
     </tbody>
   </table>
-  <a th:href="@{'/web/cr/login'}">Back to CR Login</a>
-  <a href="/">Home</a>
+  <div style="margin-top: 20px;">
+    <a th:href="@{'/web/cr/' + ${crId} + '/dashboard'}" style="background: #0f62fe; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; display: inline-block; font-weight: 600;">Back to Dashboard</a>
+    <a href="javascript:history.back()" style="display: inline-block; margin-left: 15px; color: #0f62fe;">← Back</a>
+  </div>
 </div>
 </body>
 </html>

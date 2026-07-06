@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Complete IV Plan</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 700px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .section-title { font-size: 16px; font-weight: bold; color: #0f62fe; margin-top: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+    .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f8fafc; font-size: 14px; }
+    .label { font-weight: 600; color: #475569; }
+    .value { color: #0f172a; }
+    textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; margin-top: 15px; }
+    .btn-group { display: flex; gap: 15px; margin-top: 15px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 15px; }
+    .btn-approve { background: #198754; color: white; }
+    .btn-approve:hover { background: #157347; }
+    .btn-reject { background: #dc3545; color: white; }
+    .btn-reject:hover { background: #bb2d3b; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Verify Complete IV Plan (ID: <span th:text="${iv.id}">1</span>)</h2>
+  
+  <div class="section-title">Overview</div>
+  <div class="detail-row"><span class="label">Company</span><span class="value" th:text="${iv.company != null ? iv.company.name : '—'}">Google</span></div>
+  <div class="detail-row"><span class="label">Date & Time</span><span class="value" th:text="${iv.tentativeDateTime}">2026-07-10T10:00</span></div>
+  <div class="detail-row"><span class="label">Student Limit</span><span class="value" th:text="${iv.studentLimit}">50</span></div>
+
+  <div class="section-title">Faculty In-Charge</div>
+  <div class="detail-row"><span class="label">Faculty Member</span><span class="value" th:text="${iv.facultyInCharge != null ? iv.facultyInCharge : 'Not Assigned'}">Dr. Smith</span></div>
+  <div class="detail-row"><span class="label">Faculty Acceptance Status</span><span class="value" th:text="${iv.facultyStatus}">ACCEPTED</span></div>
+
+  <div class="section-title">Transport Details</div>
+  <div class="detail-row"><span class="label">Bus Count</span><span class="value" th:text="${iv.busCount}">2</span></div>
+  <div class="detail-row"><span class="label">Bus Allocation</span><span class="value" th:text="${iv.busAllocation}">Bus A, Bus B</span></div>
+  <div class="detail-row"><span class="label">Driver Details</span><span class="value" th:text="${iv.driverDetails}">John (98765)</span></div>
+  <div class="detail-row"><span class="label">Pickup Location</span><span class="value" th:text="${iv.pickupLocation}">Main Gate</span></div>
+  <div class="detail-row"><span class="label">Estimated Transport Cost</span><span class="value" th:text="'$' + ${iv.transportCost}">$200</span></div>
+
+  <div class="section-title">Food Plan</div>
+  <div class="detail-row">
+    <span class="label">Planned Meals</span>
+    <span class="value">
+      <span th:if="${iv.foodBreakfast}">Breakfast, </span>
+      <span th:if="${iv.foodLunch}">Lunch, </span>
+      <span th:if="${iv.foodSnacks}">Snacks, </span>
+      <span th:if="${iv.foodWater}">Drinking Water</span>
+    </span>
+  </div>
+  <div class="detail-row"><span class="label">Estimated Food Cost</span><span class="value" th:text="'$' + ${iv.foodCost}">$150</span></div>
+
+  <div class="section-title">Budget Summary</div>
+  <div class="detail-row"><span class="label">Entry Fees</span><span class="value" th:text="'$' + ${iv.entryFees}">$50</span></div>
+  <div class="detail-row"><span class="label">Misc Expenses</span><span class="value" th:text="'$' + ${iv.miscExpenses}">$30</span></div>
+  <div class="detail-row" style="font-weight:bold; font-size:16px; border-top: 2px solid #cbd5e1; margin-top: 5px; padding-top: 8px;">
+    <span class="label" style="color:#198754;">Total Budget</span>
+    <span class="value" style="color:#198754;" th:text="'$' + ${iv.totalBudget}">$430</span>
+  </div>
+
+  <form th:action="@{'/web/hod/iv/' + ${iv.id} + '/verify-plan'}" method="post">
+    <textarea name="remarks" placeholder="Enter HOD remarks..."></textarea>
+    <div class="btn-group">
+      <button class="btn btn-approve" type="submit" name="action" value="APPROVE">Approve & Grant Permission to Conduct IV</button>
+      <button class="btn btn-reject" type="submit" name="action" value="REJECT">Return for Changes</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

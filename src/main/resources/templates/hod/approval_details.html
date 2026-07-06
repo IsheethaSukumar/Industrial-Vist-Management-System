@@ -95,11 +95,8 @@
     <button type="submit">Submit Decision</button>
   </form>
   
-  <div th:unless="${approval.iv != null && approval.iv.hrConfirmationPath != null}" class="alert alert-info">
-    <p>Please wait for the company to upload the required documents before proceeding with the approval.</p>
-    <button type="button" class="btn btn-primary" onclick="sendDocumentRequest()">
-      <i class="fas fa-paper-plane"></i> Send Document Request to Company
-    </button>
+  <div th:unless="${approval.iv != null && approval.iv.hrConfirmationPath != null}" class="alert alert-info" style="background-color: #e2f0fe; color: #1d4ed8; padding: 15px; border-radius: 6px; border: 1px solid #bfdbfe; margin-top: 20px;">
+    <p style="margin: 0; font-weight: 500;">Please wait for the company to upload the required documents before proceeding with the approval.</p>
   </div>
   <a href="/web/hod/approvals">Back to Pending List</a>
   <a href="/">Home</a>

@@ -41,7 +41,29 @@
       <td th:text="${iv.status}">APPROVAL_IN_PROGRESS</td>
       <td th:text="${iv.studentLimit}">40</td>
       <td th:text="${iv.transportDetails}">2 buses</td>
-      <td><a th:href="@{'/web/hod/iv/' + ${iv.id}}">Review</a></td>
+      <td>
+        <span th:if="${iv.status == 'SUBMITTED'}">
+          <a th:href="@{'/web/hod/proposal/' + ${iv.id}}" style="background:#0f62fe; color:white; padding:4px 8px; border-radius:4px; text-decoration:none;">Initial Review</a>
+        </span>
+        <span th:if="${iv.status == 'DATE_STRENGTH_SUBMITTED'}">
+          <a th:href="@{'/web/hod/iv/' + ${iv.id} + '/final-review'}" style="background:#0f62fe; color:white; padding:4px 8px; border-radius:4px; text-decoration:none;">Final Review</a>
+        </span>
+        <span th:if="${iv.status == 'COMPANY_CONFIRMED'}">
+          <a th:href="@{'/web/hod/iv/' + ${iv.id} + '/assign-faculty'}" style="background:#198754; color:white; padding:4px 8px; border-radius:4px; text-decoration:none;">Assign Faculty</a>
+        </span>
+        <span th:if="${iv.status == 'BUDGET_PREPARED'}">
+          <a th:href="@{'/web/hod/iv/' + ${iv.id} + '/verify-plan'}" style="background:#0d6efd; color:white; padding:4px 8px; border-radius:4px; text-decoration:none;">Verify Complete Plan</a>
+        </span>
+        <span th:if="${iv.status == 'PROOF_UPLOADED'}">
+          <a th:href="@{'/web/hod/iv/' + ${iv.id} + '/verify-proof'}" style="background:#ffc107; color:black; padding:4px 8px; border-radius:4px; text-decoration:none;">Verify Proofs</a>
+        </span>
+        <span th:if="${iv.status == 'COMPLETED'}">Completed ✅</span>
+        <span th:if="${iv.status != 'SUBMITTED' and iv.status != 'DATE_STRENGTH_SUBMITTED' and iv.status != 'COMPANY_CONFIRMED' and iv.status != 'BUDGET_PREPARED' and iv.status != 'PROOF_UPLOADED' and iv.status != 'COMPLETED'}">
+          In Progress (<span th:text="${iv.status}">STATUS</span>)
+        </span>
+        <br>
+        <a th:href="@{'/web/hod/iv/' + ${iv.id}}" style="font-size:12px; color:#666;">Legacy Details</a>
+      </td>
     </tr>
     </tbody>
   </table>

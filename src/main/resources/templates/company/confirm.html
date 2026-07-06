@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Confirmation</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 600px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .detail-item { margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+    .label { font-weight: 600; color: #475569; font-size: 13px; text-transform: uppercase; }
+    .value { font-size: 16px; margin-top: 3px; }
+    .form-group { margin-top: 25px; }
+    label { display: block; font-weight: 600; margin-bottom: 5px; }
+    input[type="datetime-local"] { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; }
+    .btn-group { display: flex; gap: 15px; margin-top: 15px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 15px; }
+    .btn-approve { background: #198754; color: white; }
+    .btn-approve:hover { background: #157347; }
+    .btn-suggest { background: #ffc107; color: #212529; }
+    .btn-suggest:hover { background: #ffca2c; }
+    .btn-reject { background: #dc3545; color: white; }
+    .btn-reject:hover { background: #bb2d3b; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Company Industrial Visit Confirmation</h2>
+  <p>Please review the requested details and respond:</p>
+  
+  <div class="detail-item">
+    <div class="label">IV ID</div>
+    <div class="value" th:text="${iv.id}">1</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Proposed Date</div>
+    <div class="value" th:text="${iv.tentativeDateTime}">2026-07-10T10:00</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Alternate Proposed Date</div>
+    <div class="value" th:text="${iv.alternateDate != null ? iv.alternateDate : 'None'}">None</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Student Strength</div>
+    <div class="value" th:text="${iv.studentLimit}">50</div>
+  </div>
+
+  <form th:action="@{'/web/company/iv/' + ${iv.id} + '/confirm'}" method="post" class="form-group">
+    <div class="form-group">
+      <label for="alternateDateInput">Suggest a different Date/Time (Only if selecting Suggest Date)</label>
+      <input type="datetime-local" id="alternateDateInput" name="alternateDate">
+    </div>
+    
+    <div class="btn-group">
+      <button class="btn btn-approve" type="submit" name="action" value="ACCEPT">Accept Request</button>
+      <button class="btn btn-suggest" type="submit" name="action" value="SUGGEST">Suggest Alternate Date</button>
+      <button class="btn btn-reject" type="submit" name="action" value="REJECT">Reject Request</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

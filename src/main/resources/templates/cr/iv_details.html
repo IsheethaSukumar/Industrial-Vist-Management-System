@@ -43,10 +43,20 @@
       </tr>
     </tbody>
   </table>
+  <div th:if="${iv.status == 'APPROVAL_IN_PROGRESS' && iv.hrConfirmationPath == null}" style="background-color: #fef3c7; color: #b45309; padding: 15px; border-radius: 6px; border: 1px solid #fde68a; margin-top: 20px;">
+    <p style="margin: 0 0 10px 0; font-weight: 500;">Waiting for the company to confirm and upload the acknowledgement copy.</p>
+    <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/send-request'}" method="post">
+      <button type="submit" style="background-color: #d97706; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: 600; cursor: pointer;">
+        Send Document Request to Company
+      </button>
+    </form>
+  </div>
+
   <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/submit'}" method="post" style="margin-top:16px">
     <button type="submit">Submit for HOD Approval</button>
   </form>
-  <a href="/">Home</a>
+  <a href="javascript:history.back()" style="display: inline-block; margin-top: 15px; color: #0f62fe;">← Back</a>
+  <a href="/" style="display: inline-block; margin-top: 15px; margin-left: 15px;">Home</a>
 </div>
 </body>
 </html>

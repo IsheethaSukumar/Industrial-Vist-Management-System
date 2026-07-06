@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Post-IV Proofs</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 600px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .detail-item { margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+    .label { font-weight: 600; color: #475569; font-size: 13px; text-transform: uppercase; }
+    .value { font-size: 16px; margin-top: 3px; }
+    .form-group { margin-top: 25px; }
+    textarea { width: 100%; height: 80px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    .btn-group { display: flex; gap: 15px; margin-top: 15px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 15px; }
+    .btn-approve { background: #198754; color: white; }
+    .btn-approve:hover { background: #157347; }
+    .btn-reject { background: #dc3545; color: white; }
+    .btn-reject:hover { background: #bb2d3b; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Verify Post-IV Evidence & Proof</h2>
+  
+  <div class="detail-item">
+    <div class="label">IV ID</div>
+    <div class="value" th:text="${iv.id}">1</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Company</div>
+    <div class="value" th:text="${iv.company != null ? iv.company.name : '—'}">Google</div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Visit Photographs</div>
+    <div class="value">
+      <a th:href="${iv.proofPhotosPath}" th:text="${iv.proofPhotosPath}" target="_blank">/images/iv.jpg</a>
+    </div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Attendance Sheet</div>
+    <div class="value">
+      <a th:href="${iv.proofAttendancePath}" th:text="${iv.proofAttendancePath}" target="_blank">/docs/att.pdf</a>
+    </div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Visit Report / Feedback</div>
+    <div class="value">
+      <a th:href="${iv.proofReportPath}" th:text="${iv.proofReportPath != null && !iv.proofReportPath.isEmpty() ? iv.proofReportPath : 'Not uploaded'}" target="_blank">Report</a>
+    </div>
+  </div>
+  <div class="detail-item">
+    <div class="label">Student Feedback Notes</div>
+    <div class="value" th:text="${iv.proofFeedback}">Feedback...</div>
+  </div>
+
+  <form th:action="@{'/web/hod/iv/' + ${iv.id} + '/verify-proof'}" method="post" class="form-group">
+    <label for="remarks" style="font-weight: 600; margin-bottom: 5px; display: block;">Verification Remarks</label>
+    <textarea id="remarks" name="remarks" placeholder="Enter remarks..."></textarea>
+    
+    <div class="btn-group">
+      <button class="btn btn-approve" type="submit" name="action" value="APPROVE">Approve Proof & Close IV (Completed)</button>
+      <button class="btn btn-reject" type="submit" name="action" value="REJECT">Reject Proof (Return for Corrections)</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

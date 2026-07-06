@@ -12,6 +12,8 @@ public class Company {
     private String hrName;
     private String hrEmail;
     private String contactNo;
+    private String domain;
+    private String availability;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -25,4 +27,8 @@ public class Company {
     public void setHrEmail(String hrEmail) { this.hrEmail = hrEmail; }
     public String getContactNo() { return contactNo; }
     public void setContactNo(String contactNo) { this.contactNo = contactNo; }
+    public String getDomain() { return domain; }
+    public void setDomain(String domain) { this.domain = domain; }
+    public String getAvailability() { return availability; }
+    public void setAvailability(String availability) { this.availability = availability; }
 }

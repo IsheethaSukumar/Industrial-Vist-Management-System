@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter and Select Company</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 900px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .filter-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 15px; }
+    .filter-group { flex: 1; }
+    .filter-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 13px; }
+    .filter-group input { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
+    th { background: #f1f5f9; font-weight: 600; }
+    .btn-select { background: #0f62fe; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+    .btn-select:hover { background: #0043ce; }
+    .form-section { margin-top: 30px; background: #fafafa; border: 1px dashed #cbd5e1; padding: 20px; border-radius: 8px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; }
+    .form-group input { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; }
+    .btn-submit { background: #198754; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: 600; width: 100%; cursor: pointer; font-size: 16px; margin-top: 10px; }
+    .btn-submit:hover { background: #157347; }
+  </style>
+  <script>
+    function selectCompany(id, name) {
+      document.getElementById('companyId').value = id;
+      document.getElementById('selectedCompanyName').innerText = "Selected Company: " + name;
+    }
+    function filterTable() {
+      var domainVal = document.getElementById('filterDomain').value.toLowerCase();
+      var locVal = document.getElementById('filterLocation').value.toLowerCase();
+      var rows = document.querySelectorAll('tbody tr');
+      rows.forEach(function(row) {
+        var domain = row.cells[1].innerText.toLowerCase();
+        var loc = row.cells[2].innerText.toLowerCase();
+        if (domain.includes(domainVal) && loc.includes(locVal)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</head>
+<body>
+<div class="card">
+  <h2>Select & Filter Company (IV ID: <span th:text="${iv.id}">1</span>)</h2>
+  
+  <div class="filter-box">
+    <div class="filter-group">
+      <label for="filterDomain">Filter by Domain/Industry</label>
+      <input type="text" id="filterDomain" oninput="filterTable()" placeholder="e.g. IT, Manufacturing">
+    </div>
+    <div class="filter-group">
+      <label for="filterLocation">Filter by Location</label>
+      <input type="text" id="filterLocation" oninput="filterTable()" placeholder="e.g. Bangalore, Chennai">
+    </div>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Company Name</th>
+      <th>Domain/Industry</th>
+      <th>Location</th>
+      <th>Availability</th>
+      <th>Select</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${companies}">
+      <td th:text="${c.name}">Google</td>
+      <td th:text="${c.domain}">IT</td>
+      <td th:text="${c.location}">Bangalore</td>
+      <td th:text="${c.availability}">Available</td>
+      <td>
+        <button class="btn-select" type="button" th:onclick="selectCompany([[${c.id}]], [[${c.name}]])">Select</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="form-section">
+    <h3 id="selectedCompanyName" style="margin-top:0; color:#0f62fe;">No Company Selected</h3>
+    <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/select-company'}" method="post">
+      <input type="hidden" id="companyId" name="companyId" required>
+      
+      <div class="form-group">
+        <label for="tentativeDate">Proposed Visit Date & Time</label>
+        <input type="datetime-local" id="tentativeDate" name="tentativeDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="alternateDate">Alternate Date & Time (Optional)</label>
+        <input type="datetime-local" id="alternateDate" name="alternateDate">
+      </div>
+
+      <div class="form-group">
+        <label for="finalStrength">Final Student Strength</label>
+        <input type="number" id="finalStrength" name="finalStrength" required th:value="${iv.numberOfStudents}">
+      </div>
+
+      <div class="form-group">
+        <label for="companyRequestMessage">Request Message / Cover Letter for Company</label>
+        <textarea id="companyRequestMessage" name="companyRequestMessage" rows="4" placeholder="Dear HR Team, we would like to request an industrial visit to..." style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px; font-family:inherit;"></textarea>
+      </div>
+
+      <button class="btn-submit" type="submit">Submit Date & Strength for Final HOD Approval</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

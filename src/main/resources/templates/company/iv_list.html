@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="card">
-  <h2>IV Requests</h2>
+  <h2>IV Requests for Your Company</h2>
   <p>Company ID: <span th:text="${companyId}">1</span></p>
   <table>
     <thead>
@@ -25,7 +25,7 @@
         <th>Tentative Date</th>
         <th>Status</th>
         <th>Student Limit</th>
-        <th>Action</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -35,11 +35,17 @@
         <td th:text="${iv.tentativeDateTime}">2025-11-10T10:00</td>
         <td th:text="${iv.status}">APPROVAL_IN_PROGRESS</td>
         <td th:text="${iv.studentLimit}">40</td>
-        <td><a th:href="@{'/web/company/iv/' + ${iv.id}}">Details</a></td>
+        <td>
+          <a th:href="@{'/web/company/iv/' + ${iv.id}}" style="margin-right: 10px;">Details</a>
+          <a th:if="${iv.status == 'COMPANY_REQUESTED'}" th:href="@{'/web/company/iv/' + ${iv.id} + '/confirm'}" style="background: #198754; color: white; padding: 4px 8px; border-radius: 4px; text-decoration: none;">Respond/Confirm</a>
+        </td>
       </tr>
     </tbody>
   </table>
-  <a href="/">Home</a>
+  <div style="margin-top: 20px;">
+    <a th:href="@{'/web/company/' + ${companyId} + '/dashboard'}" style="background: #0f62fe; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; display: inline-block; font-weight: 600;">Back to Dashboard</a>
+    <a href="javascript:history.back()" style="display: inline-block; margin-left: 15px; color: #0f62fe;">← Back</a>
+  </div>
 </div>
 </body>
 </html>

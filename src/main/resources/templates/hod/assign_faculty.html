@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assign Faculty In-Charge</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 600px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+    input[type="text"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    button { background: #0f62fe; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; font-size: 16px; transition: background 0.2s; }
+    button:hover { background: #0043ce; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Assign Faculty In-Charge</h2>
+  <p>Assign a faculty member who will accompany the students for the Industrial Visit (IV ID: <span th:text="${iv.id}">1</span>).</p>
+  
+  <form th:action="@{'/web/hod/iv/' + ${iv.id} + '/assign-faculty'}" method="post">
+    <div class="form-group">
+      <label for="facultyName">Faculty Name / Email</label>
+      <input type="text" id="facultyName" name="facultyName" required placeholder="e.g. Dr. Jane Smith">
+    </div>
+    <button type="submit">Assign Faculty In-Charge</button>
+  </form>
+</div>
+</body>
+</html>

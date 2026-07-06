@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create IV Proposal</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 600px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+    input[type="text"], input[type="number"], textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+    textarea { height: 100px; resize: vertical; }
+    button { background: #0f62fe; color: white; border: none; padding: 12px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; width: 100%; font-size: 16px; transition: background 0.2s; }
+    button:hover { background: #0043ce; }
+    .back-link { display: block; text-align: center; margin-top: 20px; color: #0f62fe; text-decoration: none; font-size: 14px; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Create Industrial Visit Proposal</h2>
+  <form th:action="@{'/web/cr/proposal'}" method="post">
+    <input type="hidden" name="crId" th:value="${crId}">
+    <div class="form-group">
+      <label for="department">Department</label>
+      <input type="text" id="department" name="department" required placeholder="e.g. Computer Science and Engineering">
+    </div>
+    <div class="form-group">
+      <label for="yearAndSection">Year & Section</label>
+      <input type="text" id="yearAndSection" name="yearAndSection" required placeholder="e.g. III Year A Section">
+    </div>
+    <div class="form-group">
+      <label for="numberOfStudents">Tentative Number of Students</label>
+      <input type="number" id="numberOfStudents" name="numberOfStudents" required min="1" placeholder="e.g. 50">
+    </div>
+    <div class="form-group">
+      <label for="purpose">Purpose of the Visit</label>
+      <textarea id="purpose" name="purpose" required placeholder="Describe the educational goals and purpose of the visit..."></textarea>
+    </div>
+    <div class="form-group">
+      <label for="preferredDomain">Preferred Industry / Domain</label>
+      <input type="text" id="preferredDomain" name="preferredDomain" required placeholder="e.g. Software Development, Manufacturing">
+    </div>
+    <button type="submit">Submit Proposal (Status: Submitted)</button>
+  </form>
+  <a class="back-link" href="/">Back to Home</a>
+</div>
+</body>
+</html>

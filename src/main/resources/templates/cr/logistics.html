@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistics & Budget Planning</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+    .card { max-width: 800px; margin: 30px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #0f62fe; font-size: 24px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+    .section-title { font-size: 18px; color: #0f62fe; margin-top: 25px; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+    input[type="text"], input[type="number"], input[type="datetime-local"] { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+    .checkbox-group { display: flex; gap: 15px; margin-bottom: 15px; }
+    .checkbox-group label { display: inline-flex; align-items: center; font-weight: normal; font-size: 14px; cursor: pointer; }
+    .checkbox-group input { margin-right: 8px; }
+    button { background: #0f62fe; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    button:hover { background: #0043ce; }
+    .budget-box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 20px; border-radius: 8px; margin-top: 20px; }
+    .btn-submit { width: 100%; padding: 12px; font-size: 16px; margin-top: 15px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  </style>
+  <script>
+    function calculateTotal() {
+      var transport = parseFloat(document.getElementById('transportCost').value) || 0;
+      var food = parseFloat(document.getElementById('foodCost').value) || 0;
+      var entry = parseFloat(document.getElementById('entryFees').value) || 0;
+      var misc = parseFloat(document.getElementById('miscExpenses').value) || 0;
+      var total = transport + food + entry + misc;
+      document.getElementById('totalBudgetDisplay').innerText = "Total Estimated Budget: $" + total.toFixed(2);
+    }
+  </script>
+</head>
+<body>
+<div class="card">
+  <h2>Logistics & Budget Planning (IV ID: <span th:text="${iv.id}">1</span>)</h2>
+  
+  <p><strong>Status:</strong> <span th:text="${iv.status}">FACULTY_ACCEPTED</span></p>
+
+  <!-- Step 1: Transport -->
+  <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/plan-transport'}" method="post">
+    <div class="section-title">1. Transport Arrangement</div>
+    <div class="grid">
+      <div class="form-group">
+        <label for="busCount">Number of Buses</label>
+        <input type="number" id="busCount" name="busCount" th:value="${iv.busCount != null ? iv.busCount : 1}" required>
+      </div>
+      <div class="form-group">
+        <label for="busAllocation">Bus Allocation/Details</label>
+        <input type="text" id="busAllocation" name="busAllocation" th:value="${iv.busAllocation}" placeholder="e.g. Bus 3 and Bus 7" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="driverDetails">Driver Details (Name, Contact)</label>
+      <input type="text" id="driverDetails" name="driverDetails" th:value="${iv.driverDetails}" placeholder="e.g. John (Driver 1) - 9876543210" required>
+    </div>
+    <div class="form-group">
+      <label for="pickupLocation">Pickup Location</label>
+      <input type="text" id="pickupLocation" name="pickupLocation" th:value="${iv.pickupLocation}" placeholder="e.g. College Campus Gate 1" required>
+    </div>
+    <div class="grid">
+      <div class="form-group">
+        <label for="departureTime">Departure Time</label>
+        <input type="datetime-local" id="departureTime" name="departureTime" th:value="${iv.departureTime}" required>
+      </div>
+      <div class="form-group">
+        <label for="returnTime">Return Time</label>
+        <input type="datetime-local" id="returnTime" name="returnTime" th:value="${iv.returnTime}" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="transportCostForm">Estimated Transport Cost ($)</label>
+      <input type="number" step="0.01" id="transportCostForm" name="transportCost" th:value="${iv.transportCost != null ? iv.transportCost : 0}" required>
+    </div>
+    <button type="submit">Save Transport Plan</button>
+  </form>
+
+  <!-- Step 2: Food -->
+  <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/plan-food'}" method="post" style="margin-top:20px;">
+    <div class="section-title">2. Food Arrangement</div>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="foodBreakfast" th:checked="${iv.foodBreakfast}"> Breakfast</label>
+      <label><input type="checkbox" name="foodLunch" th:checked="${iv.foodLunch}"> Lunch</label>
+      <label><input type="checkbox" name="foodSnacks" th:checked="${iv.foodSnacks}"> Snacks</label>
+      <label><input type="checkbox" name="foodWater" th:checked="${iv.foodWater}"> Drinking Water</label>
+    </div>
+    <div class="form-group">
+      <label for="foodCostForm">Estimated Food Cost ($)</label>
+      <input type="number" step="0.01" id="foodCostForm" name="foodCost" th:value="${iv.foodCost != null ? iv.foodCost : 0}" required>
+    </div>
+    <button type="submit">Save Food Plan</button>
+  </form>
+
+  <!-- Step 3: Budget Preparation -->
+  <div class="section-title">3. Expense Calculation & Budget Prep</div>
+  <form th:action="@{'/web/cr/iv/' + ${iv.id} + '/plan-budget'}" method="post">
+    <!-- Readonly values calculated from previous steps -->
+    <div class="grid">
+      <div class="form-group">
+        <label>Saved Transport Cost ($)</label>
+        <input type="number" id="transportCost" th:value="${iv.transportCost != null ? iv.transportCost : 0}" readonly style="background:#e9ecef;">
+      </div>
+      <div class="form-group">
+        <label>Saved Food Cost ($)</label>
+        <input type="number" id="foodCost" th:value="${iv.foodCost != null ? iv.foodCost : 0}" readonly style="background:#e9ecef;">
+      </div>
+    </div>
+    <div class="grid">
+      <div class="form-group">
+        <label for="entryFees">Entry Fees ($)</label>
+        <input type="number" step="0.01" id="entryFees" name="entryFees" th:value="${iv.entryFees != null ? iv.entryFees : 0}" oninput="calculateTotal()" required>
+      </div>
+      <div class="form-group">
+        <label for="miscExpenses">Miscellaneous Expenses ($)</label>
+        <input type="number" step="0.01" id="miscExpenses" name="miscExpenses" th:value="${iv.miscExpenses != null ? iv.miscExpenses : 0}" oninput="calculateTotal()" required>
+      </div>
+    </div>
+
+    <div class="budget-box">
+      <h3 id="totalBudgetDisplay" style="margin:0; color:#198754;">Total Estimated Budget: $[[${iv.totalBudget != null ? iv.totalBudget : 0}]]</h3>
+    </div>
+
+    <button class="btn-submit" type="submit" style="background:#198754;">Finalize Budget & Submit for Departmental Approval</button>
+  </form>
+</div>
+</body>
+</html>
